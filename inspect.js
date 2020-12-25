@@ -44,11 +44,11 @@ async function extractLinks(html) {
 
 async function InspectURL(urlObj) {
 	// return empty sets in case of errors
-	if(!urlObj.host) return new Set();
-	if(!urlObj.href) return new Set();
+	if(!urlObj.host) return [];
+	if(!urlObj.href) return [];
 
 	const result = await downloadPage(urlObj.href);
-	let links = new Set();
+	let links = [];
 	const filteredLinks = [];
 
 	if(result.status === 200) {

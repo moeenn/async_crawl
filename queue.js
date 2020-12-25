@@ -2,12 +2,7 @@
 class Queue {
 	constructor() {
 		this.__elements = new Set();
-		this.__datatype = null;
 		this.__callback = null;
-	}
-
-	setDataType(typename) {
-		this.__datatype = typename;
 	}
 
 	setCallback(callback) {
@@ -18,15 +13,13 @@ class Queue {
 		this.__callback = callback;
 	}
 
-	enqueue(set) {
-		if (set.constructor.name != "Set") {
-			throw new Error("Invalid Argument: Enqueue failed");
-		}
+	async add(element) {
+		this.__elements.add(element);
+		const result = await this.__callback(element);
 
-		set.forEach(element => {
-			this.__elements.add(element);
-			this.__callback(element);
-		});
+		if(result) {
+			this.__elements.delete(element);
+		}
 	}
 }
 
