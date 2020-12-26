@@ -63,7 +63,7 @@ async function InspectURL(urlObj) {
 
 		// if host of not defined on a page link, it must be the current URL host
 		if(link.host === null) {
-			const newURLstring = `${urlObj.host}/${link.href}`;
+			const newURLstring = `${urlObj.href}${link.href}`;
 			filteredLinks.push(URL.parse(newURLstring, true));
 		}
 	});

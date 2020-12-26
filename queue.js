@@ -2,10 +2,19 @@
 class Queue {
 	constructor() {
 		this.__elements = new Set();
-		this.__callback = null;
+		this.__addCallback = null;
+		this.__finishCallback = null;
 	}
 
-	setCallback(callback) {
+	setAddCallback(callback) {
+		if(callback.constructor.name != "AsyncFunction") {
+			throw new Error("Invalid Argument: Setting Queue Callback Failed");
+		}
+
+		this.__callback = callback;
+	}
+
+	setFinishCallback(callback) {
 		if(callback.constructor.name != "AsyncFunction") {
 			throw new Error("Invalid Argument: Setting Queue Callback Failed");
 		}
@@ -15,9 +24,10 @@ class Queue {
 
 	async add(element) {
 		this.__elements.add(element);
-		const result = await this.__callback(element);
+		const result = await this.__addCallback(element);
 
 		if(result) {
+			this.__finishCallback(element);
 			this.__elements.delete(element);
 		}
 	}
