@@ -3,7 +3,7 @@ const cheerio = require('cheerio');
 const URL = require('url');
 
 async function downloadPage(url) {
-	console.log(`Downloading Page: ${url}`);
+	console.log('Downloading Page: ', url);
 	const res = await fetch(url);
 
 	const result = {
